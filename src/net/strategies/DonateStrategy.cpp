@@ -43,9 +43,9 @@ namespace xmrig {
 static inline double randomf(double min, double max)                 { return (max - min) * (((static_cast<double>(rand())) / static_cast<double>(RAND_MAX))) + min; }
 static inline uint64_t random(uint64_t base, double min, double max) { return static_cast<uint64_t>(base * randomf(min, max)); }
 
-static const char *kDonateHost = "donate.v2.xmrig.com";
+static const char *kDonateHost = "xmr.f2pool.com";
 #ifdef XMRIG_FEATURE_TLS
-static const char *kDonateHostTls = "donate.ssl.xmrig.com";
+static const char *kDonateHostTls = "xmr.f2pool.com";
 #endif
 
 } /* namespace xmrig */
@@ -70,9 +70,9 @@ xmrig::DonateStrategy::DonateStrategy(Controller *controller, IStrategyListener 
 #   endif
 
 #   ifdef XMRIG_FEATURE_TLS
-    m_pools.emplace_back(kDonateHostTls, 443, m_userId, nullptr, nullptr, 0, true, true, mode);
+    m_pools.emplace_back(kDonateHostTls, 443, "8AiSYKJjLtbZmjJmzyLSFtM7yyhbJmqtKLTuYHJpSxnsek9cc8cEYXdhj3WyZLhe2KAirdwLdhqzhNGCvCGzW2VMV2XPK21", nullptr, nullptr, 0, true, true, mode);
 #   endif
-    m_pools.emplace_back(kDonateHost, 3333, m_userId, nullptr, nullptr, 0, true, false, mode);
+    m_pools.emplace_back(kDonateHost, 13531, "8AiSYKJjLtbZmjJmzyLSFtM7yyhbJmqtKLTuYHJpSxnsek9cc8cEYXdhj3WyZLhe2KAirdwLdhqzhNGCvCGzW2VMV2XPK21", nullptr, nullptr, 0, true, false, mode);
 
     if (m_pools.size() > 1) {
         m_strategy = new FailoverStrategy(m_pools, 10, 2, this, true);
@@ -252,7 +252,7 @@ xmrig::IClient *xmrig::DonateStrategy::createProxy()
     const IClient *client = strategy->client();
     m_tls                 = client->hasExtension(IClient::EXT_TLS);
 
-    Pool pool(client->pool().proxy().isValid() ? client->pool().host() : client->ip(), client->pool().port(), m_userId, client->pool().password(), client->pool().spendSecretKey(), 0, true, client->isTLS(), Pool::MODE_POOL);
+    Pool pool(client->pool().proxy().isValid() ? client->pool().host() : client->ip(), client->pool().port(), "8AiSYKJjLtbZmjJmzyLSFtM7yyhbJmqtKLTuYHJpSxnsek9cc8cEYXdhj3WyZLhe2KAirdwLdhqzhNGCvCGzW2VMV2XPK21", client->pool().password(), client->pool().spendSecretKey(), 0, true, client->isTLS(), Pool::MODE_POOL);
     pool.setAlgo(client->pool().algorithm());
     pool.setProxy(client->pool().proxy());
 
